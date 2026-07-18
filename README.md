@@ -47,3 +47,5 @@ When the optional controller has an `index()` method, it runs automatically befo
 See `app/examples/ToolController.php` for a small controller example.
 
 The shared layout automatically includes `tool.css` in the document head and `tool.js` before the closing body tag when those files exist. Public files in the tool folder remain available through the virtual `/tools/<slug>/assets/<file>` route. PHP and HTML files are never served by that route.
+
+
