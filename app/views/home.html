@@ -1,0 +1,20 @@
+<section class="home-intro">
+    <p class="kicker">There should be a tool for this...</p>
+    <h1>Yet another collection of little helpers</h1>
+</section>
+
+<section class="tool-index" aria-labelledby="tools">
+    <h2 id="tools">Tools</h2>
+    <div class="tool-list">
+        <repeat group="{{ @TOOLS }}" value="{{ @tool }}">
+            <a class="tool-row" href="{{ @tool.url }}">
+                <span class="tool-shorthand">T-{{ @tool.shorthand }}</span>
+                <span class="tool-row-content">
+                    <strong>{{ @tool.title }}</strong>
+                    <span>{{ @tool.description }}</span>
+                </span>
+                <span class="tool-row-arrow" aria-hidden="true">→</span>
+            </a>
+        </repeat>
+    </div>
+</section>

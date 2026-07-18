@@ -1,0 +1,9 @@
+# Local Laragon fallback. The configured vhost points directly at public/ after restart.
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(?:app|lib)(?:/|$) - [F,L]
+    RewriteRule ^assets/(.*)$ public/assets/$1 [L]
+    RewriteRule ^ public/index.php [L,QSA]
+</IfModule>

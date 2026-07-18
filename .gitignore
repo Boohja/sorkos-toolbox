@@ -1,0 +1,41 @@
+# Local environment
+/.env
+/.env.*
+!/.env.example
+
+# Runtime data and Fat-Free template cache
+/var/*
+!/var/tmp/
+/var/tmp/*
+!/var/tmp/.gitkeep
+/public/tmp/
+*.log
+
+# Dependencies and generated frontend output
+/vendor/
+/node_modules/
+/dist/
+/coverage/
+/public/build/
+
+# Test and quality-tool caches
+/.phpunit.cache/
+/.phpunit.result.cache
+/.php-cs-fixer.cache
+/.phpstan.cache/
+
+# Local agent and IDE state
+/.agents/
+/.codex/
+/.impeccable/
+/.idea/
+/.vscode/
+*.code-workspace
+
+# Operating-system and editor leftovers
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*~

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <title>{{ @pageTitle }}</title>
+    <link rel="stylesheet" href="/assets/app.css?v={{ @ASSET_VERSION }}">
+    <check if="{{ @TOOL_CSS }}">
+        <link rel="stylesheet" href="{{ @TOOL_CSS }}">
+    </check>
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="/" aria-label="Toolbox home">
+            <img class="brand-logo" src="/assets/logo/landscape_dark_small.svg?v={{ @ASSET_VERSION }}" width="132" height="34" alt="">
+        </a>
+    </header>
+    <main>
+        <check if="{{ @TOOL_PAGE }}">
+            <section class="tool-heading">
+                <a class="back-link" href="/">&larr; All tools</a>
+                <h1>{{ @TOOL.title }}</h1>
+                <p>{{ @TOOL.description }}</p>
+            </section>
+        </check>
+        <include href="{{ @content }}" />
+    </main>
+    <footer class="site-footer">
+        <span>&copy; {{ @CURRENT_YEAR }} by <a href="https://sorkos.net">sorkos.net</a></span>
+    </footer>
+    <check if="{{ @TOOL_JS }}">
+        <script src="{{ @TOOL_JS }}" defer></script>
+    </check>
+</body>
+</html>
