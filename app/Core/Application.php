@@ -41,7 +41,10 @@ final class Application
         $this->f3->set('ESCAPE', true);
         $this->f3->set('APP_NAME', 'Toolbox');
         $this->f3->set('CURRENT_YEAR', date('Y'));
-        $this->f3->set('ASSET_VERSION', filemtime($this->rootDirectory . '/public/assets/app.css') ?: 1);
+        $this->f3->set('ASSET_VERSION', max(
+            filemtime($this->rootDirectory . '/public/assets/app.css') ?: 1,
+            filemtime($this->rootDirectory . '/public/assets/app.js') ?: 1
+        ));
         $this->f3->set('TOOLS', $this->tools->all());
         $this->f3->set('TOOL_PAGE', false);
         $this->f3->set('TOOL_CSS', null);

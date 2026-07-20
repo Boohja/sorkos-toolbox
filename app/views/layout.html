@@ -32,11 +32,33 @@
         </check>
         <include href="{{ @content }}" />
     </main>
+    <dialog class="tool-search-dialog" aria-labelledby="tool-search-title" data-tool-search>
+        <div class="tool-search-panel">
+            <div class="tool-search-header">
+                <h2 id="tool-search-title">Find a tool</h2>
+                <button class="tool-search-close" type="button" aria-label="Close tool search" data-tool-search-close>Esc</button>
+            </div>
+            <label class="visually-hidden" for="tool-search-input">Search tools by shorthand or name</label>
+            <input class="tool-search-input" id="tool-search-input" type="search" placeholder="Type a shorthand or tool name..." autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-controls="tool-search-results" aria-expanded="false" data-tool-search-input>
+            <div class="tool-search-results" id="tool-search-results" role="listbox" aria-label="Tools" data-tool-search-results>
+                <repeat group="{{ @TOOLS }}" value="{{ @tool }}">
+                    <a class="tool-search-result" id="tool-search-{{ @tool.slug }}" href="{{ @tool.url }}" role="option" aria-selected="false" data-tool-search-result>
+                        <span class="tool-search-shorthand">{{ @tool.shorthand }}</span>
+                        <strong class="tool-search-name">{{ @tool.title }}</strong>
+                        <span class="tool-search-description">{{ @tool.description }}</span>
+                    </a>
+                </repeat>
+            </div>
+            <p class="tool-search-empty" hidden data-tool-search-empty>No matching tools.</p>
+            <p class="visually-hidden" aria-live="polite" data-tool-search-status></p>
+        </div>
+    </dialog>
     <footer class="site-footer">
         <div class="site-footer-inner">
             <span>&copy; {{ @CURRENT_YEAR }} by <a href="https://sorkos.net">sorkos.net</a></span>
         </div>
     </footer>
+    <script src="/assets/app.js?v={{ @ASSET_VERSION }}" defer></script>
     <check if="{{ @TOOL_JS }}">
         <script src="{{ @TOOL_JS }}" defer></script>
     </check>

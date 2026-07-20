@@ -2,16 +2,20 @@
     <p class="kicker">There should be a tool for this...</p>
     <div class="home-intro-columns">
         <h1>Yet another collection of little helpers</h1>
-        <img class="home-intro-art" src="/assets/toolbox.webp?v={{ @ASSET_VERSION }}" width="500" height="345" alt="" aria-hidden="true" fetchpriority="high">
+        <button class="home-intro-art-trigger" type="button" aria-label="Search tools" aria-haspopup="dialog" data-tool-search-trigger>
+            <img class="home-intro-art" src="/assets/toolbox.webp?v={{ @ASSET_VERSION }}" width="500" height="345" alt="" aria-hidden="true" fetchpriority="high">
+        </button>
     </div>
 </section>
 
 <section class="tool-index" aria-labelledby="tools">
-    <h2 id="tools">Tools</h2>
+    <h2 class="tool-index-heading" id="tools">
+        <button class="tool-search-trigger" type="button" aria-haspopup="dialog" data-tool-search-trigger>Click here or press <kbd>Ctrl</kbd><span aria-hidden="true">+</span><kbd>P</kbd> to search</button>
+    </h2>
     <div class="tool-list">
         <repeat group="{{ @TOOLS }}" value="{{ @tool }}">
             <a class="tool-row" href="{{ @tool.url }}">
-                <span class="tool-shorthand">/{{ @tool.shorthand }}</span>
+                <span class="tool-shorthand">{{ @tool.shorthand }}</span>
                 <span class="tool-row-content">
                     <strong>{{ @tool.title }}</strong>
                     <span>{{ @tool.description }}</span>

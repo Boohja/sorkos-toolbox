@@ -190,6 +190,45 @@ label:focus-visible {
     font-size: 1rem;
 }
 
+.tool-index-heading {
+    display: block;
+}
+
+.tool-search-trigger {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 7px;
+    flex-wrap: wrap;
+    border: 0;
+    border-radius: 8px;
+    padding: 13px 14px;
+    background: transparent;
+    color: var(--text-secondary);
+    font: inherit;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    transition: background 160ms ease, color 160ms ease;
+}
+
+.tool-search-trigger:hover {
+    background: var(--surface-hover);
+    color: var(--text);
+}
+
+.tool-search-trigger kbd {
+    min-width: 28px;
+    border: 1px solid var(--border-strong);
+    border-bottom-color: var(--text-muted);
+    border-radius: 5px;
+    padding: 4px 7px;
+    background: var(--surface-raised);
+    color: var(--text);
+    font: 650 .75rem/1 ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+    text-align: center;
+}
+
 .tool-list {
     border-top: 1px solid var(--border-strong);
 }
@@ -500,6 +539,196 @@ input[type="number"]:focus {
     }
 }
 
+/* Global tool search */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.tool-search-dialog {
+    width: min(680px, calc(100% - 32px));
+    max-height: min(720px, calc(100dvh - 48px));
+    margin: auto;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    padding: 0;
+    background: var(--surface-raised);
+    color: var(--text);
+    box-shadow: 0 8px 8px rgb(0 0 0 / .32);
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 220ms cubic-bezier(.22, 1, .36, 1), transform 220ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.tool-search-dialog[open] {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.tool-search-dialog.is-closing {
+    opacity: 0;
+    transform: translateY(10px);
+    transition-duration: 160ms;
+    transition-timing-function: cubic-bezier(.4, 0, 1, 1);
+}
+
+.tool-search-dialog::backdrop {
+    background: rgb(12 12 15 / .82);
+    transition: background-color 220ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.tool-search-dialog.is-closing::backdrop {
+    background: transparent;
+    transition-duration: 160ms;
+}
+
+@starting-style {
+    .tool-search-dialog[open] {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    .tool-search-dialog[open]::backdrop {
+        background: transparent;
+    }
+}
+
+.tool-search-panel {
+    display: flex;
+    max-height: min(720px, calc(100dvh - 48px));
+    flex-direction: column;
+    padding: 20px;
+}
+
+.tool-search-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 14px;
+}
+
+.tool-search-header h2 {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.tool-search-close {
+    min-width: 42px;
+    border: 1px solid var(--border-strong);
+    border-radius: 6px;
+    padding: 5px 8px;
+    background: var(--surface);
+    color: var(--text-secondary);
+    font: 650 .75rem/1 ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+    cursor: pointer;
+}
+
+.tool-search-close:hover {
+    border-color: var(--primary-border);
+    color: var(--text);
+}
+
+.tool-search-input {
+    display: block;
+    width: 100%;
+    min-height: 52px;
+    flex: none;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    outline: none;
+    padding: 13px 16px;
+    background: var(--surface);
+    color: var(--text);
+    font-size: 1rem;
+}
+
+.tool-search-input::placeholder {
+    color: var(--text-secondary);
+}
+
+.tool-search-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--focus);
+}
+
+.tool-search-results {
+    display: grid;
+    min-height: 0;
+    margin-top: 14px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+.tool-search-result {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr);
+    align-items: baseline;
+    gap: 7px 14px;
+    border-bottom: 1px solid var(--border);
+    padding: 14px;
+}
+
+.tool-search-result[hidden] {
+    display: none;
+}
+
+.tool-search-result:first-child {
+    border-top: 1px solid var(--border);
+}
+
+.tool-search-result[aria-selected="true"] {
+    background: var(--surface-hover);
+}
+
+.tool-search-shorthand {
+    color: var(--primary);
+    font: 700 .9rem/1 ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+    letter-spacing: .04em;
+    white-space: nowrap;
+}
+
+.tool-search-name {
+    color: var(--text);
+    font-size: 1rem;
+}
+
+.tool-search-description {
+    grid-column: 1 / -1;
+    color: var(--text-secondary);
+    font-size: .82rem;
+    line-height: 1.45;
+}
+
+.tool-search-empty {
+    margin: 14px 0 0;
+    border-top: 1px solid var(--border);
+    padding: 24px 14px 10px;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+@media (max-width: 520px) {
+    .tool-search-dialog {
+        max-height: calc(100dvh - 24px);
+    }
+
+    .tool-search-panel {
+        max-height: calc(100dvh - 24px);
+        padding: 16px;
+    }
+
+    .tool-search-result {
+        grid-template-columns: 56px minmax(0, 1fr);
+        padding-inline: 10px;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -529,8 +758,22 @@ input[type="number"]:focus {
     display: block;
     width: 100%;
     height: auto;
-    justify-self: end;
     image-rendering: pixelated;
+    transition: filter 160ms ease, transform 160ms ease;
+}
+
+.home-intro-art-trigger {
+    width: 100%;
+    justify-self: end;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+.home-intro-art-trigger:hover .home-intro-art {
+    filter: brightness(1.08);
+    transform: translateY(-2px);
 }
 
 @media (max-width: 980px) {
@@ -543,14 +786,14 @@ input[type="number"]:focus {
         grid-template-columns: 1fr;
     }
 
-    .home-intro-art {
+    .home-intro-art-trigger {
         width: min(70vw, 420px);
         margin-top: 8px;
     }
 }
 
 @media (max-width: 680px) {
-    .home-intro-art {
+    .home-intro-art-trigger {
         width: min(86vw, 360px);
         justify-self: center;
     }
