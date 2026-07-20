@@ -24,10 +24,13 @@ The folder name is the tool slug, and `index.html` is automatically registered a
 
 ```php
 return [
+    'shorthand' => 'EXP',
     'title' => 'Example',
     'description' => 'What the tool does.',
 ];
 ```
+
+`shorthand` must be a unique three-character combination of letters and numbers. It is normalized to uppercase. Tool folders without a shorthand are intentionally skipped during discovery.
 
 Add a controller only when PHP needs to prepare data or handle a request. The route map still limits which methods are callable:
 
@@ -47,5 +50,4 @@ When the optional controller has an `index()` method, it runs automatically befo
 See `app/examples/ToolController.php` for a small controller example.
 
 The shared layout automatically includes `tool.css` in the document head and `tool.js` before the closing body tag when those files exist. Public files in the tool folder remain available through the virtual `/tools/<slug>/assets/<file>` route. PHP and HTML files are never served by that route.
-
 

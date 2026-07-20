@@ -43,10 +43,29 @@ final class ToolRegistry
                 throw new RuntimeException(sprintf('%s must return an array.', $manifestFile));
             }
 
+            if (!isset($manifest['shorthand']) || trim((string) $manifest['shorthand']) === '') {
+                continue;
+            }
+
             $slug = $folder;
             if (!preg_match('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $slug)) {
                 throw new RuntimeException(sprintf('Invalid tool slug in %s.', $manifestFile));
             }
+
+            $shorthand = strtoupper(trim((string) $manifest['shorthand']));
+            if (!preg_match('/^[A-Z0-9]{3,}$/', $shorthand)) {
+                throw new RuntimeException(sprintf('Invalid shorthand for tool "%s".', $slug));
+            }
+
+            if (isset($usedShorthands[$shorthand])) {
+                throw new RuntimeException(sprintf(
+                    'Shorthand "%s" is already used by tool "%s".',
+                    $shorthand,
+                    $usedShorthands[$shorthand]
+                ));
+            }
+
+            $usedShorthands[$shorthand] = $slug;
 
             foreach (['title', 'description'] as $required) {
                 if (!isset($manifest[$required])) {
@@ -78,7 +97,7 @@ final class ToolRegistry
             $manifest['controller'] = $controllerClass;
             $manifest['controller_file'] = $controllerClass !== null ? $controllerFile : null;
             $manifest['url'] = '/tools/' . $slug;
-            $manifest['shorthand'] = $this->createShorthand($manifest['title'], $usedShorthands);
+            $manifest['shorthand'] = $shorthand;
             $manifest['asset_version'] = $this->directoryVersion($toolDirectory);
             $manifest['assets'] = $this->discoverAssets($slug, $toolDirectory, $manifest['asset_version']);
             $this->tools[$slug] = $manifest;
@@ -102,49 +121,6 @@ final class ToolRegistry
                 ? $assetUrl . 'tool.js?v=' . $version
                 : null,
         ];
-    }
-
-    private function createShorthand(string $title, array &$used): string
-    {
-        $words = preg_split('/[^\p{L}\p{N}]+/u', trim($title), -1, PREG_SPLIT_NO_EMPTY) ?: [];
-        $shorthand = '';
-
-        foreach ($words as $word) {
-            $character = function_exists('mb_substr') ? mb_substr($word, 0, 1) : substr($word, 0, 1);
-            $shorthand .= function_exists('mb_strtoupper') ? mb_strtoupper($character) : strtoupper($character);
-
-            $length = function_exists('mb_strlen') ? mb_strlen($shorthand) : strlen($shorthand);
-            if ($length >= 3) {
-                break;
-            }
-        }
-
-        $length = function_exists('mb_strlen') ? mb_strlen($shorthand) : strlen($shorthand);
-        $shorthand .= str_repeat('0', max(0, 3 - $length));
-        $shorthand = function_exists('mb_substr') ? mb_substr($shorthand, 0, 3) : substr($shorthand, 0, 3);
-
-        if (isset($used[$shorthand])) {
-            $prefix = function_exists('mb_substr') ? mb_substr($shorthand, 0, 2) : substr($shorthand, 0, 2);
-            $available = null;
-
-            for ($suffix = 0; $suffix <= 9; $suffix++) {
-                $candidate = $prefix . $suffix;
-
-                if (!isset($used[$candidate])) {
-                    $available = $candidate;
-                    break;
-                }
-            }
-
-            if ($available === null) {
-                throw new RuntimeException(sprintf('No shorthand remains available for tool "%s".', $title));
-            }
-
-            $shorthand = $available;
-        }
-
-        $used[$shorthand] = true;
-        return $shorthand;
     }
 
     private function directoryVersion(string $directory): int

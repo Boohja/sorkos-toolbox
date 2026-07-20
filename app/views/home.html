@@ -1,6 +1,9 @@
 <section class="home-intro">
     <p class="kicker">There should be a tool for this...</p>
-    <h1>Yet another collection of little helpers</h1>
+    <div class="home-intro-columns">
+        <h1>Yet another collection of little helpers</h1>
+        <img class="home-intro-art" src="/assets/toolbox.webp?v={{ @ASSET_VERSION }}" width="500" height="345" alt="" aria-hidden="true" fetchpriority="high">
+    </div>
 </section>
 
 <section class="tool-index" aria-labelledby="tools">
@@ -8,7 +11,7 @@
     <div class="tool-list">
         <repeat group="{{ @TOOLS }}" value="{{ @tool }}">
             <a class="tool-row" href="{{ @tool.url }}">
-                <span class="tool-shorthand">T-{{ @tool.shorthand }}</span>
+                <span class="tool-shorthand">/{{ @tool.shorthand }}</span>
                 <span class="tool-row-content">
                     <strong>{{ @tool.title }}</strong>
                     <span>{{ @tool.description }}</span>

@@ -39,6 +39,7 @@
 
 html {
     min-width: 320px;
+    overflow-y: scroll;
     background: var(--background);
 }
 
@@ -55,7 +56,8 @@ body {
 
 main {
     display: flex;
-    flex: 1;
+    flex: none;
+    min-height: calc(100dvh - 68px - 26px);
     flex-direction: column;
 }
 
@@ -89,12 +91,14 @@ label:focus-visible {
     width: min(1180px, calc(100% - 40px));
     min-height: 68px;
     align-items: center;
+    gap: 16px;
     margin-inline: auto;
     border-bottom: 1px solid var(--border);
 }
 
 .brand {
     display: block;
+    flex: none;
 }
 
 .brand-logo {
@@ -103,10 +107,38 @@ label:focus-visible {
     height: 34px;
 }
 
+.tool-context {
+    display: flex;
+    min-width: 0;
+    align-items: baseline;
+    gap: 8px;
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 1.3rem;
+    font-weight: 620;
+    line-height: 1;
+    white-space: nowrap;
+    padding-top: 10px;
+}
+
+.tool-context-shorthand {
+    color: var(--primary);
+    font: 700 1.45rem/1 ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+    letter-spacing: .04em;
+}
+
+.tool-context-separator {
+    color: var(--text-muted);
+}
+
+.tool-context-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .home-intro,
 .tool-index,
-.error-page,
-.site-footer {
+.error-page {
     width: min(1180px, calc(100% - 40px));
     margin-inline: auto;
 }
@@ -180,7 +212,7 @@ label:focus-visible {
 
 .tool-shorthand {
     color: var(--primary);
-    font: 700 .78rem/1 ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+    font: 700 .9rem/1 ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
     letter-spacing: .04em;
     white-space: nowrap;
 }
@@ -254,20 +286,49 @@ label:focus-visible {
 }
 
 .site-footer {
-    display: flex;
-    min-height: 68px;
-    align-items: center;
-    border-top: 1px solid var(--border);
-    color: var(--text-muted);
+    position: relative;
+    display: block;
+    width: 100%;
+    flex: none;
+    min-height: 120px;
+    padding-top: 52px;
+    background: var(--primary);
+    color: var(--background);
     font-size: .82rem;
 }
 
+.site-footer::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    overflow: hidden;
+    background: var(--background);
+    color: var(--primary);
+    content: "░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░";
+    font: 400 4rem/1.4 ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+    letter-spacing: 0;
+    white-space: nowrap;
+}
+
+.site-footer-inner {
+    display: flex;
+    width: min(1180px, calc(100% - 40px));
+    min-height: 68px;
+    align-items: center;
+    margin-inline: auto;
+}
+
 .site-footer a {
-    color: var(--text-secondary);
+    color: var(--background);
+    font-weight: 680;
 }
 
 .site-footer a:hover {
-    color: var(--primary);
+    color: var(--background);
+    text-decoration: underline;
+    text-underline-offset: 3px;
 }
 
 .tool-heading,
@@ -277,15 +338,7 @@ label:focus-visible {
 }
 
 .tool-heading {
-    padding: 64px 0 40px;
-}
-
-.tool-heading h1 {
-    max-width: 720px;
-    margin: 20px 0 12px;
-    font-size: clamp(2.5rem, 6vw, 5.5rem);
-    line-height: .92;
-    letter-spacing: -.04em;
+    padding: 48px 0 32px;
 }
 
 .tool-heading p {
@@ -295,15 +348,6 @@ label:focus-visible {
     font-size: 1.05rem;
     line-height: 1.6;
     text-wrap: pretty;
-}
-
-.back-link {
-    color: var(--text-secondary);
-    font-size: .9rem;
-}
-
-.back-link:hover {
-    color: var(--primary);
 }
 
 .field-heading {
@@ -408,7 +452,7 @@ input[type="number"]:focus {
     .home-intro,
     .tool-index,
     .error-page,
-    .site-footer,
+    .site-footer-inner,
     .tool-heading,
     .tool-content {
         width: calc(100% - 32px);
@@ -416,6 +460,20 @@ input[type="number"]:focus {
 
     .site-header {
         min-height: 62px;
+        gap: 12px;
+    }
+
+    main {
+        min-height: calc(100dvh - 62px - 26px);
+    }
+
+    .tool-context {
+        gap: 6px;
+        font-size: .95rem;
+    }
+
+    .tool-context-shorthand {
+        font-size: .95rem;
     }
 
     .home-intro {
@@ -424,7 +482,7 @@ input[type="number"]:focus {
     }
 
     .tool-heading {
-        padding-top: 44px;
+        padding-top: 36px;
     }
 
     .tool-row {
@@ -448,5 +506,52 @@ input[type="number"]:focus {
     *::after {
         scroll-behavior: auto !important;
         transition-duration: .01ms !important;
+    }
+}
+
+/* Landing page hero artwork */
+.home-intro {
+    display: block;
+}
+
+.home-intro-columns {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 488px);
+    align-items: start;
+    gap: clamp(32px, 4vw, 64px);
+}
+
+.home-intro-columns h1 {
+    min-width: 0;
+}
+
+.home-intro-art {
+    display: block;
+    width: 100%;
+    height: auto;
+    justify-self: end;
+    image-rendering: pixelated;
+}
+
+@media (max-width: 980px) {
+    .home-intro {
+        min-height: auto;
+        padding-bottom: 72px;
+    }
+
+    .home-intro-columns {
+        grid-template-columns: 1fr;
+    }
+
+    .home-intro-art {
+        width: min(70vw, 420px);
+        margin-top: 8px;
+    }
+}
+
+@media (max-width: 680px) {
+    .home-intro-art {
+        width: min(86vw, 360px);
+        justify-self: center;
     }
 }
